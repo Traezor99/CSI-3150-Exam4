@@ -28,9 +28,6 @@ function Calculator() {
                 };
             });
         }
-
-        // for debugging
-        console.log(calc);
     }
 
     function inputDecimal(dot) {
@@ -48,8 +45,6 @@ function Calculator() {
         const inputValue = parseFloat(calc.display);
 
         if (calc.operator && calc.waitingForSecondOperand) {
-            console.log("first if");
-            console.log(calc);
             setCalc((prevCalc) => {
                 return {
                     ...prevCalc,
@@ -61,7 +56,6 @@ function Calculator() {
 
         // if firstOperand is null and input is valid update the key:value pair
         if (calc.firstOperand === null && !isNaN(inputValue)) {
-            console.log("iif");
             setCalc((prevCalc) => {
                 return {
                     ...prevCalc,
@@ -69,7 +63,6 @@ function Calculator() {
                 };
             });
         } else if (calc.operator) {
-            console.log("else");
             const result = calculate(calc.firstOperand, inputValue, calc.operator);
             setCalc((prevCalc) => {
                 return {
@@ -87,7 +80,6 @@ function Calculator() {
                 operator: nextOperator,
             };
         });
-        console.log(calc);
     }
 
     function calculate(firstOperand, secondOperand, operator) {
