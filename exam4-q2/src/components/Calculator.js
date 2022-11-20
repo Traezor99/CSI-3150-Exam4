@@ -33,6 +33,17 @@ function Calculator() {
         console.log(calc);
     }
 
+    function inputDecimal(dot) {
+        if (!calc.display.includes(dot)) {
+            setCalc((prevCalc) => {
+                return {
+                    ...prevCalc,
+                    display: calc.display + dot,
+                };
+            });
+        }
+    }
+
     function handleOperator(nextOperator) {
         const inputValue = parseFloat(calc.display);
 
@@ -63,7 +74,7 @@ function Calculator() {
             setCalc((prevCalc) => {
                 return {
                     ...prevCalc,
-                    display: `${result}`,
+                    display: `${parseFloat(result.toFixed(7))}`,
                     firstOperand: result,
                 };
             });
@@ -95,63 +106,42 @@ function Calculator() {
         }
     }
 
-    /*function buttonClick(e) {
-        const { value } = e.target;
-        if (!e.target.matches("button")) {
-            return;
-        }
-
-        switch (value) {
-            case "+":
-            case "-":
-            case "*":
-            case "/":
-            case "=":
-                handleOperator(value);
-                break;
-            case ".":
-                inputDecimal(value);
-                break;
-            case "all-clear":
-                resetCalculator();
-                break;
-            default:
-                // check if the key is an integer
-                if (Number.isInteger(parseFloat(value))) {
-                    inputDigit(value);
-                }
-        }
-    }*/
+    function resetCalc() {
+        setCalc(() => {
+            return {
+                display: "0",
+                firstOperand: null,
+                operator: null,
+                waitingForSecondOperand: false,
+            };
+        });
+    }
 
     return (
         <div className="calculator">
-            <input type="text" class="calculator-screen" value={calc.display} disabled />
-            <div class="calculator-keys">
+            <input type="text" className="calculator-screen" value={calc.display} disabled />
+            <div className="calculator-keys">
                 <Operator value="+" display="+" click={handleOperator} />
                 <Operator value="-" display="-" click={handleOperator} />
                 <Operator value="*" display="&times;" click={handleOperator} />
                 <Operator value="/" display="&divide;" click={handleOperator} />
 
-                <Value value="7" display="7" click={inputDigit} />
-                <Value value="8" display="8" click={inputDigit} />
-                <Value value="9" display="9" click={inputDigit} />
+                <Value class="" value="7" display="7" click={inputDigit} />
+                <Value class="" value="8" display="8" click={inputDigit} />
+                <Value class="" value="9" display="9" click={inputDigit} />
 
-                <Value value="4" display="4" click={inputDigit} />
-                <Value value="5" display="5" click={inputDigit} />
-                <Value value="6" display="6" click={inputDigit} />
+                <Value class="" value="4" display="4" click={inputDigit} />
+                <Value class="" value="5" display="5" click={inputDigit} />
+                <Value class="" value="6" display="6" click={inputDigit} />
 
-                <Value value="1" display="1" click={inputDigit} />
-                <Value value="2" display="2" click={inputDigit} />
-                <Value value="3" display="3" click={inputDigit} />
+                <Value class="" value="1" display="1" click={inputDigit} />
+                <Value class="" value="2" display="2" click={inputDigit} />
+                <Value class="" value="3" display="3" click={inputDigit} />
 
-                <Value value="0" display="0" click={inputDigit} />
-                <button type="button" class="decimal" value=".">
-                    .
-                </button>
-                <button type="button" class="all-clear" value="all-clear">
-                    AC
-                </button>
-                <button type="button" class="operator" id="equal-sign" value="=">
+                <Value class="" value="0" display="0" click={inputDigit} />
+                <Value class="decimal" value="." display="." click={inputDecimal} />
+                <Value class="all-clear" value="all-clear" display="AC" click={resetCalc} />
+                <button type="button" className="operator" id="equal-sign" value="=" onClick={() => handleOperator("=")}>
                     =
                 </button>
             </div>
